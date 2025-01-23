@@ -1,0 +1,7 @@
+.bg-login {
+    background: url("../../../../public/image/background-login.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.6;
+}
