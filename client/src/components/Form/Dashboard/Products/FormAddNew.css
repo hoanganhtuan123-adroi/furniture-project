@@ -1,0 +1,10 @@
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.form-container .form-container--child {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+}

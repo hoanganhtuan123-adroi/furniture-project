@@ -1,0 +1,162 @@
+.card--product {
+    transition: all 0.3s ease;
+}
+
+.hover-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.add-to-cart-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #d4a017; /* Gold color similar to the image */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #f8f9fa;
+}
+
+.action-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.action-icon {
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 2px 4px;
+    transition: all 0.3s ease;
+}
+
+.action-icon:hover {
+    color: #d4a017;
+    background: #fff;
+    border-radius: 20px;
+}
+
+.card--product:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(14, 13, 13, 0.3); /* Dark overlay */
+    z-index: 1;
+}
+
+.hover-overlay {
+    z-index: 2;
+}
+
+/* ---------------------------------------------------------  */
+.product--feature {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    gap: 42px;
+}
+
+.slider-container {
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ */
+}
+
+.carousel-caption {
+    text-align: left !important;
+    border-radius: 10px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: #b88e2f;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0.7;
+}
+
+.carousel-indicators .active {
+    background-color: #9f7a26;
+    opacity: 1;
+}
+
+.product--feature {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.btn-outline-light {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: #b88e2f;
+    color: #fff;
+}
+
+/* --------------------------------------- */
+/* src/components/ImageGrid.css */
+.image-grid-container {
+    background-color: #fff;
+    padding: 40px 20px;
+    max-width: 1200px; /* Giới hạn chiều rộng để cân đối */
+}
+
+.image-grid-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.image-grid-container img:hover {
+    transform: scale(1.03);
+}
+
+.image-grid-container .row {
+    margin: 0 -5px; /* Khoảng cách nhỏ giữa các cột */
+}
+
+.image-grid-container .col {
+    padding: 0 5px; /* Khoảng cách nhỏ giữa các hình ảnh */
+}
+
+.display-5 {
+    font-size: 2.5rem; /* Điều chỉnh kích thước hashtag */
+}
+
+@media (max-width: 768px) {
+    .image-grid-container img {
+        height: auto !important; /* Đảm bảo responsive */
+    }
+}

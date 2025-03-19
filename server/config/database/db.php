@@ -9,7 +9,7 @@ class Database
     private $conn;
     public function __construct()
     {
-        $this->database = 'furniture_database';
+        $this->database = 'fur-db';
         $this->servername = 'localhost';
         $this->username = 'root';
         $this->password = '';

@@ -46,14 +46,15 @@ class AuthModel
         }
     }
 
-    public function login($email, $password)
+    public function login($data)
     {
         try {
-            // Get user
-            $mat_khau = "password";
-            $query = "SELECT id,username, email, $mat_khau, trang_thai FROM tai_khoan WHERE email = ? and $mat_khau = ? LIMIT 1";
+
+            $query = "SELECT nd.id as userid, t.id, t.username, t.email, t.role FROM tai_khoan as t INNER JOIN nguoi_dung nd on nd.id_tai_khoan = t.id WHERE t.email =:email and t.password =:password LIMIT 1";
             $stmt = $this->conn->prepare($query);
-            $stmt->execute([$email, $password]);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':password', $data['password']);
+            $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if (!$user) {
                 return [
@@ -65,14 +66,14 @@ class AuthModel
             // Generate JWT token
             $token = $this->generateJWT($user['id']);
 
-
             return [
                 'success' => true,
                 'message' => 'Login successful',
                 'data' => [
-                    'id' => $user['id'],
+                    'id' => $user['userid'],
                     'username' => $user['username'],
                     'email' => $user['email'],
+                    'role' => $user['role'],
                     'token' => $token
                 ]
             ];

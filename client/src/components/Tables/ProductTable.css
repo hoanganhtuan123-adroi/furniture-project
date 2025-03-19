@@ -1,0 +1,16 @@
+.product-row td {
+    height: 50px;
+}
+
+.order-success {
+    background-color: #4caf50 !important; /* Green background */
+    color: white !important;
+    border-color: #4caf50 !important;
+    border-radius: 10px !important;
+}
+
+.order-warning {
+    background-color: #ffcc00 !important; /* Yellow background */
+    color: #333 !important;
+    border-color: #ffcc00 !important;
+}

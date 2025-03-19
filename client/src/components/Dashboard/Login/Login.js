@@ -1,33 +1,26 @@
 import React from "react";
-import "./Login.css";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import instance from "../../../config/axios.config";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
+import { useDispatch } from "react-redux";
+// import { login } from "../../../redux/actions/actionLogin";
+import "./Login.css";
 function Login() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-
-        const res = await instance
-            .post("/auth/login", { email, password })
-            .catch((err) => {
-                console.log("ERROR >>> ", err);
-            });
-        console.log(res);
-        if (res && res.data && res.data.data && res.data.success) {
-            console.log("RESPONSE >>> ", res.data);
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("user", JSON.stringify(res.data.user));
-            navigate("/dashboard");
-        } else {
-            console.log("LOGIN FAILED");
-        }
-    };
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         await dispatch(login(email, password));
+    //         navigate("/dashboard/products");
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
     return (
         <>
             <div className="bg-login flex justify-center items-center h-screen bg-slate-400"></div>
@@ -69,9 +62,9 @@ function Login() {
                         />
                     </div>
                     <button
-                        onClick={(e) => {
-                            handleLogin(e);
-                        }}
+                        // onClick={(e) => {
+                        //     handleLogin(e);
+                        // }}
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
                     >

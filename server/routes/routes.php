@@ -3,7 +3,7 @@ class Router
 {
     private $routes = [];
     private $corsConfig = [
-        'origins' => ['*'],
+        'origins' => ['*'], // Default to allow all origins
         'methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         'headers' => ['Content-Type', 'Authorization', 'X-Requested-With'],
         'credentials' => true,
@@ -18,7 +18,7 @@ class Router
     public function addRoute($method, $path, $handler)
     {
         $this->routes[] = [
-            'method' => $method,
+            'method' => strtoupper($method),
             'path' => $path,
             'handler' => $handler
         ];
@@ -29,14 +29,14 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+        // Always set CORS headers
+        $this->handleCorsHeaders();
+
         // Handle CORS preflight request
         if ($method === 'OPTIONS') {
-            $this->handleCorsHeaders();
+            $this->sendResponse(null, 204);
             return;
         }
-
-        // Add CORS headers to all responses
-        $this->handleCorsHeaders();
 
         foreach ($this->routes as $route) {
             if ($this->matchRoute($route['path'], $uri) && $route['method'] === $method) {
@@ -51,39 +51,36 @@ class Router
 
     private function handleCorsHeaders()
     {
-        // Handle Origin
         $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
-        if (in_array('*', $this->corsConfig['origins']) || in_array($origin, $this->corsConfig['origins'])) {
-            if ($origin) {
-                header("Access-Control-Allow-Origin: {$origin}");
-            } else {
-                header("Access-Control-Allow-Origin: *");
-            }
+        // Set allowed origin
+        if (in_array('*', $this->corsConfig['origins'])) {
+            header('Access-Control-Allow-Origin: *');
+        } elseif ($origin && in_array($origin, $this->corsConfig['origins'])) {
+            header("Access-Control-Allow-Origin: {$origin}");
+        } else {
+            // If origin is not allowed, reject the request instead of setting null
+            header('HTTP/1.1 403 Forbidden');
+            echo json_encode(['error' => 'CORS origin not allowed']);
+            exit;
         }
 
-        // Handle Credentials
+        // Set credentials
         if ($this->corsConfig['credentials']) {
             header('Access-Control-Allow-Credentials: true');
         }
 
-        // Handle Methods
+        // Set allowed methods
         header('Access-Control-Allow-Methods: ' . implode(', ', $this->corsConfig['methods']));
 
-        // Handle Headers
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
-            header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
-        } else {
-            header('Access-Control-Allow-Headers: ' . implode(', ', $this->corsConfig['headers']));
-        }
+        // Set allowed headers (prioritize requested headers for preflight)
+        $requestedHeaders = isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])
+            ? $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']
+            : implode(', ', $this->corsConfig['headers']);
+        header("Access-Control-Allow-Headers: {$requestedHeaders}");
 
-        // Handle Max Age
-        header('Access-Control-Max-Age: ' . $this->corsConfig['maxAge']);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-            http_response_code(204);
-            exit();
-        }
+        // Set max age
+        header("Access-Control-Max-Age: {$this->corsConfig['maxAge']}");
     }
 
     private function matchRoute($routePath, $uri)
@@ -100,7 +97,7 @@ class Router
 
         foreach ($routeParts as $index => $part) {
             if (preg_match('/\{([^}]+)\}/', $part, $matches)) {
-                $params[$matches[1]] = $uriParts[$index];
+                $params[$matches[1]] = $uriParts[$index] ?? null;
             }
         }
 
@@ -109,15 +106,24 @@ class Router
 
     private function executeHandler($handler, $params)
     {
-        list($controller, $method) = explode('@', $handler);
-        $controllerInstance = new $controller();
-        call_user_func_array([$controllerInstance, $method], [$params]);
+        try {
+            list($controller, $method) = explode('@', $handler);
+            if (!class_exists($controller) || !method_exists($controller, $method)) {
+                throw new Exception('Invalid controller or method');
+            }
+            $controllerInstance = new $controller();
+            call_user_func_array([$controllerInstance, $method], [$params]);
+        } catch (Exception $e) {
+            $this->sendResponse(['error' => 'Server error: ' . $e->getMessage()], 500);
+        }
     }
 
     public function sendResponse($data, $statusCode = 200)
     {
         header('Content-Type: application/json; charset=utf-8');
         http_response_code($statusCode);
-        echo json_encode($data);
+        if ($data !== null) {
+            echo json_encode($data);
+        }
     }
 }

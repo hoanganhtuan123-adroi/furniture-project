@@ -1,0 +1,57 @@
+/* src/components/Footer.css */
+.footer-section {
+    background-color: #f8f9fa;
+    color: #333;
+    font-size: 14px;
+}
+
+.footer-section h5 {
+    color: #000;
+}
+
+.footer-section .text-muted {
+    color: #6c757d !important;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-section .list-unstyled li {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.footer-section .list-unstyled li:hover {
+    color: #000;
+}
+
+.footer-section .form-control {
+    border: 1px solid #ced4da;
+    box-shadow: none;
+}
+
+.footer-section .btn {
+    transition: background-color 0.3s ease;
+}
+
+.footer-section .btn:hover {
+    background-color: #222;
+}
+
+.footer-section hr {
+    border-top: 1px solid #dee2e6;
+}
+
+@media (max-width: 768px) {
+    .footer-section .row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-section .col {
+        margin-bottom: 20px;
+    }
+
+    .footer-section .form-group {
+        margin-bottom: 0;
+    }
+}
