@@ -17,7 +17,7 @@ require __DIR__ . '/app/controller/ReviewController/ReviewController.php';
 require __DIR__ . '/app/controller/StockController/StockController.php';
 require __DIR__ . '/app/controller/PaymentController/PaymentController.php';
 require __DIR__ . '/app/controller/UserController/UserController.php';
-
+// require __DIR__ . '/vendor/autoload.php';
 
 $db = new Database();
 $db->connect();
@@ -89,4 +89,5 @@ $router->addRoute("DELETE", "/api/dashboard/customers/{id}/delete", "UserControl
 
 $router->addRoute("POST", "/api/momo-ipn", "UserController@momoIpnController");
 $router->addRoute("POST", "/api/payments/payorderatm", "UserController@payOrderControllerATM");
+// $router->addRoute("POST", '/api/dashboard/products/import', "ProductController@importProductsController");
 $router->handleRequest();

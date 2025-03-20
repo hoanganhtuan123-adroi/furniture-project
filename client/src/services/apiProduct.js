@@ -96,3 +96,22 @@ export const getDetailProductApi = async (id) => {
         console.log(error);
     }
 };
+
+// export const importExcelProductApi = async (data) => {
+//     try {
+//         const response = await instance.post(
+//             "/dashboard/products/import",
+//             data,
+//             {
+//                 headers: { "Content-Type": "multipart/form-data" },
+//             }
+//         );
+//         if (response.ER === 0) {
+//             return response;
+//         } else {
+//             return [];
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };

@@ -1,4 +1,9 @@
 <?php
+
+// namespace App\Controller\ProductController;
+
+// use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class ProductController
 {
     private $ProductModel;
@@ -230,4 +235,34 @@ class ProductController
             $this->sendResponse($result, 404);
         }
     }
+
+    // Nhập sản phẩm bằng excel
+    // public function importProductsController()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         // Kiểm tra file Excel
+    //         if (isset($_FILES['excelFile'])) {
+    //             $excelFile = $_FILES['excelFile'];
+
+    //             // Xử lý file Excel
+    //             // $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($excelFile['tmp_name']);
+    //             $spreadsheet = IOFactory::load($excelFile['tmp_name']);
+    //             $sheet = $spreadsheet->getActiveSheet();
+    //             $data = $sheet->toArray();
+
+    //             // Gọi model để thêm sản phẩm
+    //             $result = $this->ProductModel->importProductsFromExcel($data);
+
+    //             if ($result['ER'] === 0) {
+    //                 $this->sendResponse($result, 200);
+    //             } else {
+    //                 $this->sendResponse($result, 400);
+    //             }
+    //         } else {
+    //             $this->sendResponse(['error' => 'Thiếu file Excel'], 400);
+    //         }
+    //     } else {
+    //         $this->sendResponse(['error' => 'Phương thức không được hỗ trợ'], 405);
+    //     }
+    // }
 }

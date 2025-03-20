@@ -443,4 +443,98 @@ class ProductModel
             ];
         }
     }
+
+    // Nhập sản phẩm bằng file excel
+    // public function importProductsFromExcel($data)
+    // {
+    //     try {
+    //         $this->conn->beginTransaction();
+
+    //         // Bỏ qua hàng đầu tiên nếu là tiêu đề
+    //         array_shift($data);
+
+    //         foreach ($data as $row) {
+    //             // Kiểm tra dữ liệu cơ bản
+    //             if (empty($row[0]) || empty($row[1])) {
+    //                 continue; // Bỏ qua hàng trống
+    //             }
+
+    //             // Gán dữ liệu từ Excel
+    //             $productData = [
+    //                 'ma_san_pham' => $row[0],
+    //                 'ten_san_pham' => $row[1],
+    //                 'tieu_de' => $row[2],
+    //                 'mo_ta_san_pham' => $row[3],
+    //                 'gia_ban' => $row[4],
+    //                 'ten_mau' => $row[5],
+    //                 'ma_mau' => $row[6],
+    //                 'kich_thuoc' => $row[7],
+    //                 'id_danh_muc_con' => $row[8],
+    //                 'id_giam_gia' => $row[9] ?? null,
+    //                 'so_luong_nhap' => $row[10],
+    //                 'so_luong_ton_kho' => $row[11],
+    //                 'so_luong_ban_ra' => $row[12],
+    //                 'gia_nhap' => $row[13],
+    //                 'ngay_nhap' => $row[14],
+    //                 'lo_hang' => $row[15]
+    //             ];
+
+    //             // Kiểm tra mã sản phẩm đã tồn tại chưa
+    //             $stmt = $this->conn->prepare("SELECT ma_san_pham FROM san_pham WHERE ma_san_pham = :ma_san_pham");
+    //             $stmt->bindParam(':ma_san_pham', $productData['ma_san_pham']);
+    //             $stmt->execute();
+    //             if ($stmt->rowCount() > 0) {
+    //                 continue; // Bỏ qua nếu mã sản phẩm đã tồn tại
+    //             }
+
+    //             // Thêm vào bảng san_pham
+    //             $sql = "INSERT INTO san_pham (ma_san_pham, ten_san_pham, tieu_de, mo_ta_san_pham, gia_ban, ten_mau, ma_mau, kich_thuoc, id_danh_muc_con, id_giam_gia) 
+    //                     VALUES (:ma_san_pham, :ten_san_pham, :tieu_de, :mo_ta_san_pham, :gia_ban, :ten_mau, :ma_mau, :kich_thuoc, :id_danh_muc_con, :id_giam_gia)";
+    //             $stmt = $this->conn->prepare($sql);
+    //             $stmt->execute($productData);
+
+    //             // Lấy ID sản phẩm vừa thêm
+    //             $IDSanPham = $this->conn->lastInsertId();
+
+    //             // Thêm vào bảng kho_hang
+    //             $sql_query_add_khohang = "INSERT INTO kho_hang (
+    //                 id_san_pham, so_luong_nhap, so_luong_ton_kho, so_luong_ban_ra, gia_nhap, ngay_nhap, lo_hang
+    //             ) VALUES (
+    //                 :id_san_pham, :so_luong_nhap, :so_luong_ton_kho, :so_luong_ban_ra, :gia_nhap, :ngay_nhap, :lo_hang
+    //             )";
+    //             $stmt = $this->conn->prepare($sql_query_add_khohang);
+    //             $stmt->bindParam(':id_san_pham', $IDSanPham);
+    //             $stmt->bindParam(':so_luong_nhap', $productData['so_luong_nhap']);
+    //             $stmt->bindParam(':so_luong_ton_kho', $productData['so_luong_ton_kho']);
+    //             $stmt->bindParam(':so_luong_ban_ra', $productData['so_luong_ban_ra']);
+    //             $stmt->bindParam(':gia_nhap', $productData['gia_nhap']);
+    //             $stmt->bindParam(':ngay_nhap', $productData['ngay_nhap']);
+    //             $stmt->bindParam(':lo_hang', $productData['lo_hang']);
+    //             $stmt->execute();
+
+    //             // Thêm ảnh mặc định vào bảng kho_anh
+    //             $defaultImagePath = __DIR__ . "/../../uploads/productDefaultIMG.jpg";
+    //             $ten_anh = "productDefaultIMG.jpg"; // Tên file ảnh mặc định
+    //             $sql_query_add_image = "INSERT INTO kho_anh (id_san_pham, ten_anh, duong_dan) 
+    //                                     VALUES (:id_san_pham, :ten_anh, :duong_dan)";
+    //             $stmt = $this->conn->prepare($sql_query_add_image);
+    //             $stmt->bindParam(':id_san_pham', $IDSanPham);
+    //             $stmt->bindParam(':ten_anh', $ten_anh);
+    //             $stmt->bindParam(':duong_dan', $defaultImagePath);
+    //             $stmt->execute();
+    //         }
+
+    //         $this->conn->commit();
+    //         return [
+    //             'ER' => 0,
+    //             'message' => 'Nhập sản phẩm thành công'
+    //         ];
+    //     } catch (Exception $e) {
+    //         $this->conn->rollBack();
+    //         return [
+    //             'ER' => 1,
+    //             'message' => 'Nhập sản phẩm thất bại: ' . $e->getMessage()
+    //         ];
+    //     }
+    // }
 }
